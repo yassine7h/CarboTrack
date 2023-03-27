@@ -14,6 +14,7 @@ public class Admin {
     private int id;
     private String firstName;
     private String lastName;
+    @Column(unique = true)
     private String matriculation;
     @JsonFormat(pattern = "dd-MM-yyyy")
     private Date birthDate;

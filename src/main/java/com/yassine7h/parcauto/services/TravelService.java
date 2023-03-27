@@ -1,10 +1,50 @@
 package com.yassine7h.parcauto.services;
 
+import com.yassine7h.parcauto.exceptions.ResourceExistException;
+import com.yassine7h.parcauto.exceptions.ResourceNotFoundException;
+import com.yassine7h.parcauto.models.Travel;
+import com.yassine7h.parcauto.repositories.TravelRepository;
 import com.yassine7h.parcauto.services.interfaces.ITravelService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+import java.util.Optional;
+
 @Service
 @RequiredArgsConstructor
 public class TravelService implements ITravelService {
+    private final TravelRepository travelRepository;
+
+    @Override
+    public List<Travel> getAll() {
+        return travelRepository.findAll();
+    }
+
+    @Override
+    public Travel getById(int id) {
+        return travelRepository.findById(id).orElseThrow(()->new ResourceNotFoundException(id,Travel.class));
+    }
+
+    @Override
+    public int add(Travel travel) {
+        Optional<Travel> travelOptional=travelRepository.findById(travel.getId());
+        if(travelOptional.isPresent()) throw new ResourceExistException(travel.getId(),Travel.class);
+        Travel addedTravel=travelRepository.save(travel);
+        return addedTravel.getId();
+    }
+
+    @Override
+    public void update(Travel travel) {
+        Optional<Travel> travelOptional=travelRepository.findById(travel.getId());
+        if(!travelOptional.isPresent()) throw new ResourceNotFoundException(travel.getId(),Travel.class);
+        travelRepository.save(travel);
+    }
+
+    @Override
+    public void delete(int id) {
+        Optional<Travel> travelOptional=travelRepository.findById(id);
+        if(!travelOptional.isPresent()) throw new ResourceNotFoundException(id,Travel.class);
+        travelRepository.deleteById(id);
+    }
 }
