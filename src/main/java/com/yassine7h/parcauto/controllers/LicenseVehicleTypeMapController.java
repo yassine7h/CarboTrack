@@ -3,6 +3,7 @@ package com.yassine7h.parcauto.controllers;
 import com.yassine7h.parcauto.dtos.SuccessMessage;
 import com.yassine7h.parcauto.models.LicenseVehicleTypeMap;
 import com.yassine7h.parcauto.services.LicenseVehicleTypeMapService;
+import com.yassine7h.parcauto.services.interfaces.ILicenseVehicleTypeMapService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -16,7 +17,7 @@ import java.util.List;
 @RequiredArgsConstructor
 @RequestMapping(path = "/licenseVehicleTypeMaps")
 public class LicenseVehicleTypeMapController {
-    private final LicenseVehicleTypeMapService licenseVehicleTypeMapService;
+    private final ILicenseVehicleTypeMapService licenseVehicleTypeMapService;
 
     @GetMapping(path = "")
     public ResponseEntity<List<LicenseVehicleTypeMap>> getLicenseVehicleTypeMaps(){
@@ -40,7 +41,7 @@ public class LicenseVehicleTypeMapController {
 
     @PutMapping(path = "/{id}")
     public ResponseEntity<SuccessMessage> updateLicenseVehicleTypeMaps(@PathVariable int id,@RequestBody LicenseVehicleTypeMap licenseVehicleTypeMap){
-        licenseVehicleTypeMapService.update(licenseVehicleTypeMap);
+        licenseVehicleTypeMapService.update(licenseVehicleTypeMap,id);
         var successMessage=new SuccessMessage();
         successMessage.setMessage("LicenseVehicleTypeMap updated successfully");
         successMessage.setResourceId(id);

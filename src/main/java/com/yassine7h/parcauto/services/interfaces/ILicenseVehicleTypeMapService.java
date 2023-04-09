@@ -8,6 +8,6 @@ public interface ILicenseVehicleTypeMapService {
     public List<LicenseVehicleTypeMap> getAll();
     public LicenseVehicleTypeMap getById(int id);
     public int add(LicenseVehicleTypeMap driver);
-    public void update(LicenseVehicleTypeMap driver);
+    public void update(LicenseVehicleTypeMap driver,int id);
     public void delete(int id);
 }

@@ -1,8 +1,11 @@
 package com.yassine7h.parcauto.controllers;
 
 import com.yassine7h.parcauto.dtos.SuccessMessage;
+import com.yassine7h.parcauto.dtos.TravelReqDto;
+import com.yassine7h.parcauto.dtos.TravelResDto;
 import com.yassine7h.parcauto.models.Travel;
 import com.yassine7h.parcauto.services.TravelService;
+import com.yassine7h.parcauto.services.interfaces.ITravelService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -16,21 +19,21 @@ import java.util.List;
 @RequiredArgsConstructor
 @RequestMapping(path = "/travels")
 public class TravelController {
-    private final TravelService travelService;
+    private final ITravelService travelService;
 
     @GetMapping(path = "")
-    public ResponseEntity<List<Travel>> getTravels(){
-        return new ResponseEntity<>(travelService.getAll(), HttpStatus.OK);
+    public ResponseEntity<List<TravelResDto>> getTravels(){
+        return new ResponseEntity<>(travelService.getAllDto(), HttpStatus.OK);
     }
 
     @GetMapping(path = "/{id}")
-    public ResponseEntity<Travel> getTravel(@PathVariable int id){
-        return new ResponseEntity<>(travelService.getById(id),HttpStatus.OK);
+    public ResponseEntity<TravelResDto> getTravel(@PathVariable int id){
+        return new ResponseEntity<>(travelService.getByIdDto(id),HttpStatus.OK);
     }
 
     @PostMapping(path = "")
-    public ResponseEntity<SuccessMessage> saveTravel(@RequestBody Travel travel){
-        int id=travelService.add(travel);
+    public ResponseEntity<SuccessMessage> saveTravel(@RequestBody TravelReqDto travel){
+        int id=travelService.addDto(travel);
         var successMessage=new SuccessMessage();
         successMessage.setMessage("Travel added successfully");
         successMessage.setResourceId(id);
@@ -39,8 +42,8 @@ public class TravelController {
     }
 
     @PutMapping(path = "/{id}")
-    public ResponseEntity<SuccessMessage> updateTravels(@PathVariable int id,@RequestBody Travel travel){
-        travelService.update(travel);
+    public ResponseEntity<SuccessMessage> updateTravels(@PathVariable int id,@RequestBody TravelReqDto travel){
+        travelService.updateDto(travel,id);
         var successMessage=new SuccessMessage();
         successMessage.setMessage("Travel updated successfully");
         successMessage.setResourceId(id);

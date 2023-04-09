@@ -26,6 +26,10 @@ public class AccountService implements IAccountService {
     public Account getById(int id) {
         return accountRepository.findById(id).orElseThrow(()->new ResourceNotFoundException(id,Account.class));
     }
+    @Override
+    public Account getByEmail(String email) {
+        return accountRepository.findByEmail(email).orElseThrow(()->new ResourceNotFoundException(email,Account.class));
+    }
 
     @Override
     public int add(Account account) {

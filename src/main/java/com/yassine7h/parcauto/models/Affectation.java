@@ -27,8 +27,9 @@ public class Affectation {
     private Vehicle vehicle;
     @JsonFormat(pattern = "dd-MM-yyyy")
     private Date affectationDate;
-    private AffectationStatus status;
+
+/*    private AffectationStatus status;
     enum AffectationStatus {
         SCHEDULED, AFFECTED, CANCELED, TRAVELING, TERMINATED
-    }
+    }*/
 }

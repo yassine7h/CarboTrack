@@ -35,9 +35,10 @@ public class LicenseVehicleTypeMapService implements ILicenseVehicleTypeMapServi
     }
 
     @Override
-    public void update(LicenseVehicleTypeMap licenseVehicleTypeMap) {
-        Optional<LicenseVehicleTypeMap> licenseVehicleTypeMapOptional=licenseVehicleTypeMapRepository.findById(licenseVehicleTypeMap.getId());
+    public void update(LicenseVehicleTypeMap licenseVehicleTypeMap,int id) {
+        Optional<LicenseVehicleTypeMap> licenseVehicleTypeMapOptional=licenseVehicleTypeMapRepository.findById(id);
         if(!licenseVehicleTypeMapOptional.isPresent()) throw new ResourceNotFoundException(licenseVehicleTypeMap.getId(),LicenseVehicleTypeMap.class);
+        licenseVehicleTypeMap.setId(id);
         licenseVehicleTypeMapRepository.save(licenseVehicleTypeMap);
     }
 

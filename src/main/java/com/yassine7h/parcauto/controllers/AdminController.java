@@ -1,8 +1,11 @@
 package com.yassine7h.parcauto.controllers;
 
+import com.yassine7h.parcauto.dtos.AdminReqDto;
+import com.yassine7h.parcauto.dtos.AdminResDto;
 import com.yassine7h.parcauto.dtos.SuccessMessage;
 import com.yassine7h.parcauto.models.Admin;
 import com.yassine7h.parcauto.services.AdminService;
+import com.yassine7h.parcauto.services.interfaces.IAdminService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -16,21 +19,21 @@ import java.util.List;
 @RequiredArgsConstructor
 @RequestMapping(path = "/admins")
 public class AdminController {
-    private final AdminService adminService;
+    private final IAdminService adminService;
 
     @GetMapping(path = "")
-    public ResponseEntity<List<Admin>> getAdmins(){
-        return new ResponseEntity<>(adminService.getAll(), HttpStatus.OK);
+    public ResponseEntity<List<AdminResDto>> getAdmins(){
+        return new ResponseEntity<>(adminService.getAllDto(), HttpStatus.OK);
     }
 
     @GetMapping(path = "/{id}")
-    public ResponseEntity<Admin> getAdmin(@PathVariable int id){
-        return new ResponseEntity<>(adminService.getById(id),HttpStatus.OK);
+    public ResponseEntity<AdminResDto> getAdmin(@PathVariable int id){
+        return new ResponseEntity<>(adminService.getByIdDto(id),HttpStatus.OK);
     }
 
     @PostMapping(path = "")
-    public ResponseEntity<SuccessMessage> saveAdmin(@RequestBody Admin admin){
-        int id=adminService.add(admin);
+    public ResponseEntity<SuccessMessage> saveAdmin(@RequestBody AdminReqDto admin){
+        int id=adminService.addDto(admin);
         var successMessage=new SuccessMessage();
         successMessage.setMessage("Admin added successfully");
         successMessage.setResourceId(id);
@@ -39,8 +42,8 @@ public class AdminController {
     }
 
     @PutMapping(path = "/{id}")
-    public ResponseEntity<SuccessMessage> updateAdmins(@PathVariable int id,@RequestBody Admin admin){
-        adminService.update(admin);
+    public ResponseEntity<SuccessMessage> updateAdmins(@PathVariable int id,@RequestBody AdminReqDto admin){
+        adminService.updateDto(admin,id);
         var successMessage=new SuccessMessage();
         successMessage.setMessage("Admin updated successfully");
         successMessage.setResourceId(id);

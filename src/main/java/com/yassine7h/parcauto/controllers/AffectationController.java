@@ -1,8 +1,11 @@
 package com.yassine7h.parcauto.controllers;
 
+import com.yassine7h.parcauto.dtos.AffectationReqDto;
+import com.yassine7h.parcauto.dtos.AffectationResDto;
 import com.yassine7h.parcauto.dtos.SuccessMessage;
 import com.yassine7h.parcauto.models.Affectation;
 import com.yassine7h.parcauto.services.AffectationService;
+import com.yassine7h.parcauto.services.interfaces.IAffectationService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -16,21 +19,21 @@ import java.util.List;
 @RequiredArgsConstructor
 @RequestMapping(path = "/affectations")
 public class AffectationController {
-    private final AffectationService affectationService;
+    private final IAffectationService affectationService;
 
     @GetMapping(path = "")
-    public ResponseEntity<List<Affectation>> getAffectations(){
-        return new ResponseEntity<>(affectationService.getAll(), HttpStatus.OK);
+    public ResponseEntity<List<AffectationResDto>> getAffectations(){
+        return new ResponseEntity<>(affectationService.getAllDto(), HttpStatus.OK);
     }
 
     @GetMapping(path = "/{id}")
-    public ResponseEntity<Affectation> getAffectation(@PathVariable int id){
-        return new ResponseEntity<>(affectationService.getById(id),HttpStatus.OK);
+    public ResponseEntity<AffectationResDto> getAffectation(@PathVariable int id){
+        return new ResponseEntity<>(affectationService.getByIdDto(id),HttpStatus.OK);
     }
 
     @PostMapping(path = "")
-    public ResponseEntity<SuccessMessage> saveAffectation(@RequestBody Affectation affectation){
-        int id=affectationService.add(affectation);
+    public ResponseEntity<SuccessMessage> saveAffectation(@RequestBody AffectationReqDto affectation){
+        int id=affectationService.addDto(affectation);
         var successMessage=new SuccessMessage();
         successMessage.setMessage("Affectation added successfully");
         successMessage.setResourceId(id);
@@ -39,8 +42,8 @@ public class AffectationController {
     }
 
     @PutMapping(path = "/{id}")
-    public ResponseEntity<SuccessMessage> updateAffectations(@PathVariable int id,@RequestBody Affectation affectation){
-        affectationService.update(affectation);
+    public ResponseEntity<SuccessMessage> updateAffectations(@PathVariable int id,@RequestBody AffectationReqDto affectation){
+        affectationService.updateDto(affectation,id);
         var successMessage=new SuccessMessage();
         successMessage.setMessage("Affectation updated successfully");
         successMessage.setResourceId(id);

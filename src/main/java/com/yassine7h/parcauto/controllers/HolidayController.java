@@ -1,8 +1,11 @@
 package com.yassine7h.parcauto.controllers;
 
+import com.yassine7h.parcauto.dtos.HolidayReqDto;
+import com.yassine7h.parcauto.dtos.HolidayResDto;
 import com.yassine7h.parcauto.dtos.SuccessMessage;
 import com.yassine7h.parcauto.models.Holiday;
 import com.yassine7h.parcauto.services.HolidayService;
+import com.yassine7h.parcauto.services.interfaces.IHolidayService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -16,25 +19,22 @@ import java.util.List;
 @RequiredArgsConstructor
 @RequestMapping(path = "/holidays")
 public class HolidayController {
-    private final HolidayService holidayService;
+    private final IHolidayService holidayService;
 
     @GetMapping(path = "")
-    public ResponseEntity<List<Holiday>> getHolidays(){
-
+    public ResponseEntity<List<HolidayResDto>> getHolidays(){
         List<Holiday> list =holidayService.getAll();
-        System.out.println("from holiday controller getAll:  "+list.get(0).getEndDate());
-        return new ResponseEntity<>(holidayService.getAll(), HttpStatus.OK);
+        return new ResponseEntity<>(holidayService.getAllDto(), HttpStatus.OK);
     }
 
     @GetMapping(path = "/{id}")
-    public ResponseEntity<Holiday> getHoliday(@PathVariable int id){
-
-        return new ResponseEntity<>(holidayService.getById(id),HttpStatus.OK);
+    public ResponseEntity<HolidayResDto> getHoliday(@PathVariable int id){
+        return new ResponseEntity<>(holidayService.getByIdDto(id),HttpStatus.OK);
     }
 
     @PostMapping(path = "")
-    public ResponseEntity<SuccessMessage> saveHoliday(@RequestBody Holiday holiday){
-        int id=holidayService.add(holiday);
+    public ResponseEntity<SuccessMessage> saveHoliday(@RequestBody HolidayReqDto holiday){
+        int id=holidayService.addDto(holiday);
         var successMessage=new SuccessMessage();
         successMessage.setMessage("Holiday added successfully");
         successMessage.setResourceId(id);
@@ -43,9 +43,8 @@ public class HolidayController {
     }
 
     @PutMapping(path = "/{id}")
-    public ResponseEntity<SuccessMessage> updateHolidays(@PathVariable int id,@RequestBody Holiday holiday){
-       // holiday.setId(id);
-        holidayService.update(holiday);
+    public ResponseEntity<SuccessMessage> updateHolidays(@PathVariable int id,@RequestBody HolidayReqDto holiday){
+        holidayService.updateDto(holiday,id);
         System.out.println(holiday.getEndDate());
         var successMessage=new SuccessMessage();
         successMessage.setMessage("Holiday updated successfully");

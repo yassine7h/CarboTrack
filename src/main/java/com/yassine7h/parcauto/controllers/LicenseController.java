@@ -1,8 +1,11 @@
 package com.yassine7h.parcauto.controllers;
 
+import com.yassine7h.parcauto.dtos.LicenseReqDto;
+import com.yassine7h.parcauto.dtos.LicenseResDto;
 import com.yassine7h.parcauto.dtos.SuccessMessage;
 import com.yassine7h.parcauto.models.License;
 import com.yassine7h.parcauto.services.LicenseService;
+import com.yassine7h.parcauto.services.interfaces.ILicenseService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -16,21 +19,21 @@ import java.util.List;
 @RequiredArgsConstructor
 @RequestMapping(path = "/licenses")
 public class LicenseController {
-    private final LicenseService licenseService;
+    private final ILicenseService licenseService;
 
     @GetMapping(path = "")
-    public ResponseEntity<List<License>> getLicenses(){
-        return new ResponseEntity<>(licenseService.getAll(), HttpStatus.OK);
+    public ResponseEntity<List<LicenseResDto>> getLicenses(){
+        return new ResponseEntity<>(licenseService.getAllDto(), HttpStatus.OK);
     }
 
     @GetMapping(path = "/{id}")
-    public ResponseEntity<License> getLicense(@PathVariable int id){
-        return new ResponseEntity<>(licenseService.getById(id),HttpStatus.OK);
+    public ResponseEntity<LicenseResDto> getLicense(@PathVariable int id){
+        return new ResponseEntity<>(licenseService.getByIdDto(id),HttpStatus.OK);
     }
 
     @PostMapping(path = "")
-    public ResponseEntity<SuccessMessage> saveLicense(@RequestBody License license){
-        int id=licenseService.add(license);
+    public ResponseEntity<SuccessMessage> saveLicense(@RequestBody LicenseReqDto license){
+        int id=licenseService.addDto(license);
         var successMessage=new SuccessMessage();
         successMessage.setMessage("License added successfully");
         successMessage.setResourceId(id);
@@ -39,8 +42,8 @@ public class LicenseController {
     }
 
     @PutMapping(path = "/{id}")
-    public ResponseEntity<SuccessMessage> updateLicenses(@PathVariable int id,@RequestBody License license){
-        licenseService.update(license);
+    public ResponseEntity<SuccessMessage> updateLicenses(@PathVariable int id,@RequestBody LicenseReqDto license){
+        licenseService.updateDto(license,id);
         var successMessage=new SuccessMessage();
         successMessage.setMessage("License updated successfully");
         successMessage.setResourceId(id);

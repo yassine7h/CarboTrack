@@ -1,10 +1,12 @@
 package com.yassine7h.parcauto.models;
 
 import com.fasterxml.jackson.annotation.*;
+import com.yassine7h.parcauto.enums.DriverStatus;
 import jakarta.persistence.*;
 
 import lombok.Getter;
 import lombok.Setter;
+import org.hibernate.annotations.DynamicUpdate;
 
 import java.sql.Date;
 import java.util.Set;
@@ -12,6 +14,7 @@ import java.util.Set;
 @Entity
 @Getter
 @Setter
+@DynamicUpdate
 public class Driver {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -23,8 +26,8 @@ public class Driver {
     @JsonFormat(pattern = "dd-MM-yyyy")
     private Date birthDate;
     private String CIN;
-    private DriverStatus driverStatus;
-    @OneToMany(mappedBy = "driver",cascade = CascadeType.REMOVE)
+    /*private DriverStatus driverStatus;*/
+    @OneToMany(mappedBy = "driver",cascade = CascadeType.ALL)
     @JsonIgnoreProperties("driver")
     private Set<License> licenses;
     @OneToOne
@@ -33,7 +36,5 @@ public class Driver {
     @OneToMany(mappedBy = "driver")
     @JsonIgnoreProperties("driver")
     private Set<Affectation> affectations;
-    enum DriverStatus {
-        NOT_AFFECTED, AFFECTED, TRAVELING, ON_LEAVE
-    }
+
 }
