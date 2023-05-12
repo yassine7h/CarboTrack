@@ -3,8 +3,6 @@ package com.yassine7h.parcauto.mappers;
 import com.yassine7h.parcauto.dtos.*;
 import com.yassine7h.parcauto.models.Driver;
 import com.yassine7h.parcauto.models.License;
-import lombok.NoArgsConstructor;
-import lombok.RequiredArgsConstructor;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.springframework.beans.factory.annotation.Autowired;

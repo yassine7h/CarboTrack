@@ -56,7 +56,7 @@ public class LicenseService implements ILicenseService {
 
     @Override
     public List<LicenseResDto> getAllDto() {
-        return  getAll().stream().map(i->licenseMapper.toLicenseResDto(i)).collect(Collectors.toList());
+        return  getAll().stream().map(i-> licenseMapper.toLicenseResDto(i)).collect(Collectors.toList());
     }
 
     @Override

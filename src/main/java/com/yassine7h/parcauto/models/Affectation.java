@@ -16,8 +16,7 @@ public class Affectation {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
-    @ManyToOne
-    @JsonIgnoreProperties("affectations")
+    @OneToOne
     private Travel travel;
     @ManyToOne
     @JsonIgnoreProperties("affectations")

@@ -1,5 +1,6 @@
 package com.yassine7h.parcauto.auth;
 
+import com.yassine7h.parcauto.enums.Role;
 import lombok.*;
 
 @Getter@Setter
@@ -8,4 +9,5 @@ import lombok.*;
 @NoArgsConstructor
 public class AuthRes {
     private String token;
+    private Role role;
 }

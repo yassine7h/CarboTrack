@@ -9,8 +9,11 @@ import com.yassine7h.parcauto.models.Driver;
 import com.yassine7h.parcauto.repositories.DriverRepository;
 import com.yassine7h.parcauto.services.interfaces.IDriverService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -73,4 +76,6 @@ public class DriverService implements IDriverService {
         if(!driverOptional.isPresent()) throw new ResourceNotFoundException(id,Driver.class);
         driverRepository.deleteById(id);
     }
+
+
 }

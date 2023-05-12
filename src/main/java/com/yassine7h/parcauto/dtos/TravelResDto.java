@@ -20,5 +20,5 @@ public class TravelResDto {
 
     private VehicleType vehicleType;
 
-    private Set<Integer> affectationIds;
+    private Integer affectationId;
 }

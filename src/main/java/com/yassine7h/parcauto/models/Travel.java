@@ -26,9 +26,9 @@ public class Travel {
     private VehicleType vehicleType;
    /* private TravelStatus travelStatus;*/
 
-    @OneToMany(mappedBy = "travel")
+    @OneToOne(mappedBy = "travel")
     @JsonIgnoreProperties("travel")
-    private Set<Affectation> affectations;
+    private Affectation affectation;
 
 
 }

@@ -1,9 +1,8 @@
 package com.yassine7h.parcauto.controllers;
 
 import com.yassine7h.parcauto.dtos.SuccessMessage;
-import com.yassine7h.parcauto.models.LicenseVehicleTypeMap;
-import com.yassine7h.parcauto.services.LicenseVehicleTypeMapService;
-import com.yassine7h.parcauto.services.interfaces.ILicenseVehicleTypeMapService;
+import com.yassine7h.parcauto.models.LicenseVehicleTypeConfig;
+import com.yassine7h.parcauto.services.interfaces.ILicenseVehicleTypeConfigService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -15,23 +14,23 @@ import java.util.List;
 @Slf4j
 @RestController
 @RequiredArgsConstructor
-@RequestMapping(path = "/licenseVehicleTypeMaps")
-public class LicenseVehicleTypeMapController {
-    private final ILicenseVehicleTypeMapService licenseVehicleTypeMapService;
+@RequestMapping(path = "/config")
+public class ConfigController {
+    private final ILicenseVehicleTypeConfigService licenseVehicleTypeMapService;
 
-    @GetMapping(path = "")
-    public ResponseEntity<List<LicenseVehicleTypeMap>> getLicenseVehicleTypeMaps(){
+    @GetMapping(path = "/licenseVehicleType")
+    public ResponseEntity<List<LicenseVehicleTypeConfig>> getLicenseVehicleTypeMaps(){
         return new ResponseEntity<>(licenseVehicleTypeMapService.getAll(), HttpStatus.OK);
     }
 
-    @GetMapping(path = "/{id}")
-    public ResponseEntity<LicenseVehicleTypeMap> getLicenseVehicleTypeMap(@PathVariable int id){
+    @GetMapping(path = "/licenseVehicleType/{id}")
+    public ResponseEntity<LicenseVehicleTypeConfig> getLicenseVehicleTypeMap(@PathVariable int id){
         return new ResponseEntity<>(licenseVehicleTypeMapService.getById(id),HttpStatus.OK);
     }
 
-    @PostMapping(path = "")
-    public ResponseEntity<SuccessMessage> saveLicenseVehicleTypeMap(@RequestBody LicenseVehicleTypeMap licenseVehicleTypeMap){
-        int id=licenseVehicleTypeMapService.add(licenseVehicleTypeMap);
+    @PostMapping(path = "/licenseVehicleType")
+    public ResponseEntity<SuccessMessage> saveLicenseVehicleTypeMap(@RequestBody LicenseVehicleTypeConfig licenseVehicleTypeConfig){
+        int id=licenseVehicleTypeMapService.add(licenseVehicleTypeConfig);
         var successMessage=new SuccessMessage();
         successMessage.setMessage("LicenseVehicleTypeMap added successfully");
         successMessage.setResourceId(id);
@@ -39,9 +38,9 @@ public class LicenseVehicleTypeMapController {
         return new ResponseEntity<>(successMessage,HttpStatus.CREATED);
     }
 
-    @PutMapping(path = "/{id}")
-    public ResponseEntity<SuccessMessage> updateLicenseVehicleTypeMaps(@PathVariable int id,@RequestBody LicenseVehicleTypeMap licenseVehicleTypeMap){
-        licenseVehicleTypeMapService.update(licenseVehicleTypeMap,id);
+    @PutMapping(path = "/licenseVehicleType/{id}")
+    public ResponseEntity<SuccessMessage> updateLicenseVehicleTypeMaps(@PathVariable int id,@RequestBody LicenseVehicleTypeConfig licenseVehicleTypeConfig){
+        licenseVehicleTypeMapService.update(licenseVehicleTypeConfig,id);
         var successMessage=new SuccessMessage();
         successMessage.setMessage("LicenseVehicleTypeMap updated successfully");
         successMessage.setResourceId(id);
@@ -49,7 +48,7 @@ public class LicenseVehicleTypeMapController {
         return new ResponseEntity<>(successMessage,HttpStatus.OK);
     }
 
-    @DeleteMapping(path = "/{id}")
+    @DeleteMapping(path = "/licenseVehicleType/{id}")
     public ResponseEntity deleteLicenseVehicleTypeMap(@PathVariable int id){
         licenseVehicleTypeMapService.delete(id);
         return new ResponseEntity(HttpStatus.NO_CONTENT);

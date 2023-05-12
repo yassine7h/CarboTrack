@@ -1,8 +1,6 @@
 package com.yassine7h.parcauto.controllers;
 
-import com.yassine7h.parcauto.dtos.SuccessMessage;
-import com.yassine7h.parcauto.dtos.TravelReqDto;
-import com.yassine7h.parcauto.dtos.TravelResDto;
+import com.yassine7h.parcauto.dtos.*;
 import com.yassine7h.parcauto.models.Travel;
 import com.yassine7h.parcauto.services.TravelService;
 import com.yassine7h.parcauto.services.interfaces.ITravelService;
@@ -55,5 +53,14 @@ public class TravelController {
     public ResponseEntity deleteTravel(@PathVariable int id){
         travelService.delete(id);
         return new ResponseEntity(HttpStatus.NO_CONTENT);
+    }
+
+    @GetMapping(path = "/{id}/choice/drivers")
+    public ResponseEntity<List<DriverResDto>> driverChoice(@PathVariable int id){
+        return new ResponseEntity<>(travelService.driverChoice(id), HttpStatus.OK);
+    }
+    @GetMapping(path = "/{id}/choice/vehicles")
+    public ResponseEntity<List<VehicleResDto>> vehicleChoice(@PathVariable int id){
+        return new ResponseEntity<>(travelService.vehicleChoice(id), HttpStatus.OK);
     }
 }

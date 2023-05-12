@@ -8,6 +8,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface AffectationRepository extends JpaRepository<Affectation,Integer> {
@@ -15,4 +16,7 @@ public interface AffectationRepository extends JpaRepository<Affectation,Integer
     List<Travel> findAllByVehicleId(int vehicleId);
     @Query("SELECT e.travel FROM Affectation e WHERE e.driver.id = ?1")
     List<Travel> findAllByDriverId(int driverId);
+
+    @Query("SELECT e.travel FROM Affectation e WHERE e.travel.id = ?1")
+    Optional<Travel> isTravelAssigned(int idTravel);
 }

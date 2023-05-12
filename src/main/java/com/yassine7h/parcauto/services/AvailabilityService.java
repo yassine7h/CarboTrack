@@ -36,7 +36,6 @@ public class AvailabilityService implements IAvailabilityService {
         List<Travel> travels=affectationRepository.findAllByDriverId(idDriver);
         List<Holiday> holidays=holidayRepository.findAllByDriverId(idDriver);
         for (Travel travel:travels) {
-            System.out.println(travel.getId());
             var travelStart=travel.getStartDate();
             var travelEnd=travel.getEndDate();
             if(areIntervalsOverlap(travelStart, travelEnd, startDate, endDate))

@@ -13,11 +13,13 @@ import java.util.stream.Collectors;
 
 @Mapper(componentModel = "spring")
 public abstract class TravelMapper {
-    @Mapping(target = "affectationIds",expression = "java(setAffectationIds(travel.getAffectations()))")
+    @Mapping(target = "affectationId",expression = "java(setAffectationId(travel.getAffectation()))")
     public abstract TravelResDto toTravelResDto(Travel travel);
     public abstract Travel toTravel(TravelReqDto travelReqDto);
 
-    public Set<Integer> setAffectationIds(Set<Affectation> affectations) {
-        return affectations.stream().map(Affectation::getId).collect(Collectors.toSet());
+    public Integer setAffectationId(Affectation affectation) {
+        if(affectation!=null)
+            return affectation.getId();
+        return null;
     }
 }

@@ -28,6 +28,14 @@ public class GlobalExceptionHandler {
         );
     }
 
+    @ExceptionHandler(NotCompatibleException.class)
+    public ResponseEntity<ErrorMessage> notCompatibleExceptionHandler(NotCompatibleException ex) {
+        return new ResponseEntity<>(
+                new ErrorMessage(HttpStatus.valueOf(400),ex.getMessage(),new Date()),
+                HttpStatus.CONFLICT
+        );
+    }
+
     @ExceptionHandler(Exception.class)
     public ResponseEntity<ErrorMessage> exceptionHandler(Exception ex) {
         return new ResponseEntity<>(
