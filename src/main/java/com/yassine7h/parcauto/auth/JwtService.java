@@ -1,5 +1,7 @@
 package com.yassine7h.parcauto.auth;
 
+import com.yassine7h.parcauto.enums.Role;
+import com.yassine7h.parcauto.models.Account;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
@@ -23,8 +25,12 @@ public class JwtService {
     public String extractUsername(String token) {
         return extractClaim(token,Claims::getSubject);
     }
-    public String generateToken( UserDetails userDetails ) {
-        return generateToken(new HashMap<>(),userDetails);
+    public String generateToken( Account account ) {
+        Map<String, Object> accountRoleMap=new HashMap<>();
+        Role accountRole= account.getRole();
+        String roleName=accountRole.name();
+        accountRoleMap.put("Role",roleName);
+        return generateToken(accountRoleMap,account);.
     }
     public String generateToken(
         Map<String,Object> extraClaims,
