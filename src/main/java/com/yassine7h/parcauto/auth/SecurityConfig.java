@@ -8,12 +8,14 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.oauth2.server.resource.authentication.JwtGrantedAuthoritiesConverter;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.authentication.logout.LogoutHandler;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
+
 
 import java.util.List;
 
@@ -32,14 +34,14 @@ public class SecurityConfig{
                 .csrf().disable()
                 .cors().configurationSource(corsConfigurationSource())
                 .and().authorizeHttpRequests()
-                .requestMatchers(
-                        "/auth/**",
+                    .requestMatchers("/auth/**").permitAll()
+                    .requestMatchers(
                         "/**",
                         "/v3/api-docs",
                         "/v3/api-docs/**",
                         "/swagger-ui/**",
                         "/swagger-ui.html"
-                ).permitAll()
+                ).hasRole("ADMIN")
                 .anyRequest().authenticated()
                 .and().sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and().authenticationProvider(authenticationProvider)
@@ -66,4 +68,8 @@ public class SecurityConfig{
         source.registerCorsConfiguration("/**", config);
         return source;
     }
+
+
+
+
 }

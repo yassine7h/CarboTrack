@@ -30,7 +30,7 @@ public class JwtService {
         Role accountRole= account.getRole();
         String roleName=accountRole.name();
         accountRoleMap.put("Role",roleName);
-        return generateToken(accountRoleMap,account);.
+        return generateToken(accountRoleMap,account);
     }
     public String generateToken(
         Map<String,Object> extraClaims,
@@ -46,6 +46,7 @@ public class JwtService {
     }
     public boolean isTokenValid(String token,UserDetails userDetails){
         final String username=extractUsername(token);
+
         return username.equals(userDetails.getUsername())&& !isTokenExpired(token);
     }
 
